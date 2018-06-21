@@ -1,5 +1,4 @@
-import { ChannelDef } from 'vega-lite/build/src/fielddef';
-import { TopLevelFacetedUnitSpec, TopLevelSpec } from 'vega-lite/build/src/spec';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 
 const REGEX = /(\w+)\(([\w\.\/]+)(,([\w\.]+))?\)/;
 
