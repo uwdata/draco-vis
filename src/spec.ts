@@ -95,12 +95,19 @@ export function vl2asp(spec: TopLevelFacetedUnitSpec): string[] {
     facts.push(`encoding(${eid})`);
     facts.push(`channel(${eid},${channel})`);
 
+    let encFieldType = null;
+    let encZero = null;
+
     // translate encodings
     for (const field of Object.keys(encoding[channel])) {
       const fieldContent = encoding[channel][field];
+      if (field === 'type') {
+        encFieldType = fieldContent;
+      }
       if (field === 'scale') {
         // translate two boolean fields
         if ('zero' in fieldContent) {
+          encZero = fieldContent.zero;
           if (fieldContent.zero) {
             facts.push(`zero(${eid})`);
           } else {
@@ -123,6 +130,10 @@ export function vl2asp(spec: TopLevelFacetedUnitSpec): string[] {
         // translate normal fields
         facts.push(`${field}(${eid},${fieldContent})`);
       }
+    }
+
+    if (encFieldType === 'quantitative' && encZero === null) {
+      facts.push(`zero(${eid})`);
     }
   }
 

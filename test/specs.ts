@@ -1,5 +1,4 @@
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
-
 export const vlSpecs: TopLevelFacetedUnitSpec[] = [
   {
     mark: 'bar',
@@ -120,7 +119,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
     encoding: {
       y: { field: 'Origin', type: 'nominal' },
       size: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative', aggregate: 'mean' },
-      x: { scale: { zero: false }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
+      x: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
     },
     data: { url: 'data/cars.json' },
     $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
@@ -130,7 +129,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
     encoding: {
       y: { field: 'Cylinders', type: 'ordinal' },
       size: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative', aggregate: 'mean' },
-      x: { scale: { zero: false }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
+      x: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
     },
     data: { url: 'data/cars.json' },
     $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
@@ -138,7 +137,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
   {
     mark: 'bar',
     encoding: {
-      x: { scale: { zero: false }, field: 'Miles_per_Gallon', type: 'quantitative', bin: { maxbins: 5 } },
+      x: { scale: { zero: true }, field: 'Miles_per_Gallon', type: 'quantitative', bin: { maxbins: 5 } },
       y: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
@@ -408,7 +407,7 @@ export const aspSpecs = [
     'field(e2,"Acceleration")',
     'type(e2,quantitative)',
     'bin(e2,10)',
-    ':- zero(e2)',
+    'zero(e2)',
   ],
   [
     'data("data/cars.json")',
@@ -428,7 +427,7 @@ export const aspSpecs = [
     'field(e2,"Acceleration")',
     'type(e2,quantitative)',
     'bin(e2,10)',
-    ':- zero(e2)',
+    'zero(e2)',
   ],
   [
     'data("data/cars.json")',
@@ -438,7 +437,7 @@ export const aspSpecs = [
     'field(e0,"Miles_per_Gallon")',
     'type(e0,quantitative)',
     'bin(e0,5)',
-    ':- zero(e0)',
+    'zero(e0)',
     'encoding(e1)',
     'channel(e1,y)',
     'type(e1,quantitative)',
