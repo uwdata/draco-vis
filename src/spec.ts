@@ -33,7 +33,7 @@ export function asp2vl(facts: string[]): TopLevelFacetedUnitSpec {
     const enc = encodings[e];
 
     // if quantitative encoding and zero is not set, set zero to false
-    if (enc.type === 'quantitative' && enc.zero === undefined) {
+    if (enc.type === 'quantitative' && enc.zero === undefined && enc.bin === undefined) {
       enc.zero = false;
     }
 
@@ -97,12 +97,16 @@ export function vl2asp(spec: TopLevelFacetedUnitSpec): string[] {
 
     let encFieldType = null;
     let encZero = null;
+    let encBinned = null;
 
     // translate encodings
     for (const field of Object.keys(encoding[channel])) {
       const fieldContent = encoding[channel][field];
       if (field === 'type') {
         encFieldType = fieldContent;
+      }
+      if (field === 'bin') {
+        encBinned = fieldContent;
       }
       if (field === 'scale') {
         // translate two boolean fields
@@ -132,7 +136,7 @@ export function vl2asp(spec: TopLevelFacetedUnitSpec): string[] {
       }
     }
 
-    if (encFieldType === 'quantitative' && encZero === null) {
+    if (encFieldType === 'quantitative' && encZero === null && encBinned === null) {
       facts.push(`zero(${eid})`);
     }
   }
