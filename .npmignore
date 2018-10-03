@@ -7,6 +7,7 @@
 concat_lp.sh
 concat_lp.sh
 demo
+dist
 node_modules
 rollup.config.js
 serve.py
