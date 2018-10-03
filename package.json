@@ -1,6 +1,6 @@
 {
   "name": "draco-vis",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Draco on the web.",
   "main": "build/draco.js",
   "unpkg": "build/draco.js",
