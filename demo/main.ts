@@ -19,9 +19,11 @@ encoding(e1).
 :- not field(e1,horsepower).
 `;
 
-const draco = new Draco('https://unpkg.com/wasm-clingo@0.0.6');
+// const url = 'http://localhost:8000/';
+const url = 'https://unpkg.com/wasm-clingo@0.2.2';
+
+const draco = new Draco(url);
 draco.init().then(() => {
-  const solution = draco.solve(EXAMPLE, {models: 5});
+  const solution = draco.solve(EXAMPLE, { models: 5 });
   console.log(solution);
 });
-

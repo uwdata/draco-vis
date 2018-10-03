@@ -1,7 +1,6 @@
-import Clingo_ from 'wasm-clingo';
+import Clingo from 'wasm-clingo';
 import * as constraints from './constraints';
 import { getModels, models2vl } from './spec';
-const Clingo: typeof Clingo_ = (Clingo_ as any).default || Clingo_;
 
 export * from './constraints';
 
@@ -37,40 +36,56 @@ class Draco {
 
   private Module: any;
 
+  private stdout: string = '';
+
   /**
    * @param url The base path of the server hosting this.
    * @param updateStatus Optional callback to log updates for status changes.
    */
   constructor(url: string, updateStatus?: (text: string) => void) {
-    this.Module = {
+    // add / if it's missing from the URL
+    if (url.substr(url.length - 1) !== '/') {
+      url += '/';
+    }
+
+    const that = this;
+    const m = {
       // Where to locate clingo.wasm
-      locateFile: (file: string) => `${url}/${file}`,
+      locateFile: (file: string) => `${url}${file}`,
 
       // Status change logger
       setStatus: updateStatus || console.log,
 
+      print(text: string) {
+        that.stdout += text;
+      },
+
       // Dependencies
       totalDependencies: 0,
       monitorRunDependencies(left: number) {
-        this.totalDependencies = Math.max(this.totalDependencies, left);
-        this.setStatus(
+        m.totalDependencies = Math.max(m.totalDependencies, left);
+        m.setStatus(
           left
-            ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')'
+            ? 'Preparing... (' + (m.totalDependencies - left) + '/' + m.totalDependencies + ')'
             : 'All downloads complete.'
         );
       },
 
       printErr(err: Error) {
-        this.setStatus('Error. See console for errors.');
-        console.error(err);
+        if (err) {
+          m.setStatus('Received output on stderr.');
+          console.warn(err);
+        }
       },
     };
+
+    this.Module = m;
   }
 
   /**
    * Initializes the underlying solver.
    *
-   * @returns {Promise} A promise that resolves when the solver is ready.
+   * @returns A promise that resolves when the solver is ready.
    */
   public init() {
     return new Promise((resolve: (draco: Draco) => void, reject: () => void) => {
@@ -79,6 +94,7 @@ class Draco {
         this.initialized = true;
         resolve(this);
       };
+
       Clingo(this.Module);
     });
   }
@@ -91,7 +107,7 @@ class Draco {
    *
    * @returns The solution from Clingo as JSON.
    */
-  public solve(program: string, options: Options = {}): any {
+  public solve(program: string, options: Options = {}) {
     if (!this.initialized) {
       throw Error('Draco is not initialized. Call `init() first.`');
     }
@@ -112,14 +128,12 @@ class Draco {
       .concat((options.weights || []).map(d => `-c ${d.name}=${d.value}`))
       .join(' ');
 
-    let resultText = '';
-    this.Module.print = (text: string) => {
-      resultText += text;
-    };
+    // reset stdout before running clingo
+    this.stdout = '';
 
     this.Module.ccall('run', 'number', ['string', 'string'], [program, opt]);
 
-    const result = JSON.parse(resultText);
+    const result = JSON.parse(this.stdout);
     const models = getModels(result);
 
     if (models.length > (options.models || 1)) {

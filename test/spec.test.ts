@@ -1,7 +1,7 @@
 import { asp2vl, vl2asp } from '../src/spec';
 import { aspSpecs, vlSpecs } from './specs';
 
-test('bidirectional_test', () => {
+test('asp2vl and vl2asp work', () => {
   for (let i = 0; i < vlSpecs.length; i++) {
     const aspSpec = aspSpecs[i];
     const vlSpec = vlSpecs[i];

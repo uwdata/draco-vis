@@ -2,7 +2,7 @@ export const TOPK_LUA: string = `#script(lua)
 
 function main(prg)
     local count = tonumber(prg.configuration.solve.models)
-    local backend = prg.backend
+    local backend = prg:backend()
 
     local observer = {
         minimize_literals = {}
