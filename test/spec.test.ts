@@ -26,7 +26,7 @@ test('parses results correctly', () => {
       'zero(e1)',
     ])
   ).toEqual({
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
     data: { url: 'data/cars.json' },
     mark: 'bar',
     encoding: {
@@ -39,7 +39,7 @@ test('parses results correctly', () => {
 test('generates correct asp', () => {
   expect(
     vl2asp({
-      $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+      $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
       data: { url: 'data/cars.json' },
       mark: 'bar',
       encoding: {

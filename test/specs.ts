@@ -7,19 +7,19 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { field: 'Cylinders', type: 'nominal' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
     encoding: { y: { scale: { zero: true }, field: 'Miles_per_Gallon', type: 'quantitative' } },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
     encoding: { x: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' } },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
@@ -28,13 +28,13 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
     encoding: { x: { scale: { zero: true }, field: 'Miles_per_Gallon', type: 'quantitative' } },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -43,7 +43,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -52,7 +52,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -61,7 +61,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -70,7 +70,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { field: 'Cylinders', type: 'ordinal' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -79,7 +79,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -88,13 +88,13 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
     encoding: { x: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' } },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -103,7 +103,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -112,7 +112,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -122,7 +122,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -132,7 +132,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative', bin: { maxbins: 10 } },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -141,7 +141,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
@@ -150,13 +150,13 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
     encoding: { x: { field: 'Release_Date', type: 'temporal' } },
     data: { url: 'data/movies.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -166,7 +166,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       row: { field: 'Origin', type: 'nominal' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -175,7 +175,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { field: 'Release_Date', type: 'temporal' },
     },
     data: { url: 'data/movies.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'bar',
@@ -184,7 +184,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       y: { field: 'Cylinders', type: 'ordinal' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -194,7 +194,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       size: { scale: { zero: true }, field: 'Acceleration', type: 'quantitative', aggregate: 'mean' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'point',
@@ -204,7 +204,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       size: { scale: { zero: true }, type: 'quantitative', aggregate: 'count' },
     },
     data: { url: 'data/movies.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
   {
     mark: 'tick',
@@ -213,7 +213,7 @@ export const vlSpecs: TopLevelFacetedUnitSpec[] = [
       x: { scale: { zero: true }, field: 'Horsepower', type: 'quantitative' },
     },
     data: { url: 'data/cars.json' },
-    $schema: 'https://vega.github.io/schema/vega-lite/v2.json',
+    $schema: 'https://vega.github.io/schema/vega-lite/v3.json',
   },
 ];
 
