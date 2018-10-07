@@ -27,6 +27,7 @@
     "prettier": "^1.14.3",
     "rollup": "^0.66.2",
     "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "ts-jest": "^23.10.3",
@@ -56,6 +57,7 @@
   "dependencies": {
     "draco-vis": "^0.0.9",
     "vega-lite": "^3.0.0-rc6",
+    "vega-loader": "^3.0.1",
     "vega-typings": "^0.3.47",
     "wasm-clingo": "0.2.2"
   }
