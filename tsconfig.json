@@ -11,7 +11,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
     },
     "files": [
         "src/index.ts"

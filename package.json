@@ -55,9 +55,9 @@
     ]
   },
   "dependencies": {
+    "datalib": "^1.9.1",
     "draco-vis": "^0.0.9",
     "vega-lite": "^3.0.0-rc6",
-    "vega-loader": "^3.0.1",
     "vega-typings": "^0.3.47",
     "wasm-clingo": "0.2.2"
   }

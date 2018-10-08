@@ -1,4 +1,2 @@
-declare module 'datalib/src/stats.js' {
-  const content: any;
-  export = content;
-}
+declare module 'datalib/src/stats';
+declare module 'datalib/src/import/read';

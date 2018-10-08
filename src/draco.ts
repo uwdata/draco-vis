@@ -1,3 +1,5 @@
+import read from 'datalib/src/import/read';
+import dlstats from 'datalib/src/stats';
 import { TopLevelSpec } from 'vega-lite/build/src/spec';
 import * as vegaLoader from 'vega-loader';
 import Clingo from 'wasm-clingo';
@@ -43,7 +45,8 @@ export interface FieldTypes {
 }
 
 export interface Schema {
-  types: FieldTypes;
+  stats: any;
+  size: number;
 }
 
 /**
@@ -132,7 +135,16 @@ class Draco {
       throw Error('Draco is not initialized. Call `init() first.`');
     }
 
+    if (!this.schema) {
+      throw Error('Must prepare data first');
+    }
+
     this.Module.setStatus('Running Draco Query...');
+
+    const dataDecl = this.getDataDeclaration();
+    program += dataDecl;
+
+    console.debug(`running program:\n ${program}`);
 
     const programs = options.constraints || Object.keys(constraints);
 
@@ -169,21 +181,42 @@ class Draco {
   }
 
   public prepareData(data: any[]) {
-    const readData = vegaLoader.read(data);
-    const fields = Object.keys(readData[0]);
-    const types = vegaLoader.inferTypes(data, fields);
-    Object.keys(types)
-      .forEach((key: string) => {
-        types[key] = types[key] === 'integer' ? 'number' : types[key];
-      });
+    const readData = read(data);
+    const summary = dlstats.summary(readData);
+
+    const keyedSummary = {};
+    summary.forEach((column: any) => {
+      const field = column.field;
+      delete column.field;
+      keyedSummary[field] = column;
+    });
 
     this.schema = {
-      types
+      stats: keyedSummary,
+      size: data.length,
     };
   }
 
-  public getFields(): FieldTypes | null {
-    return this.schema ? this.schema.types : null;
+  private getDataDeclaration(): string {
+    if (!this.schema) {
+      throw Error("No data has been prepared");
+    }
+
+    const stats = this.schema.stats;
+    let decl = `num_rows${this.schema.size}`;
+
+    decl +=
+      Object.keys(stats)
+        .map(field => {
+          const fieldStats = stats[field];
+          const fieldType = `fieldtype(${field},${fieldStats.type}).`;
+          const cardinality = `cardinality(${field}, ${fieldStats.distinct}).`;
+
+          return `${fieldType}\n${cardinality}`;
+        })
+        .join('\n');
+
+    return `\n${decl}\n`;
   }
 }
 
