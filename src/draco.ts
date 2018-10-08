@@ -144,8 +144,6 @@ class Draco {
     const dataDecl = this.getDataDeclaration();
     program += dataDecl;
 
-    console.debug(`running program:\n ${program}`);
-
     const programs = options.constraints || Object.keys(constraints);
 
     program += programs.map((name: string) => (constraints as any)[name]).join('\n\n');
@@ -203,14 +201,15 @@ class Draco {
     }
 
     const stats = this.schema.stats;
-    let decl = `num_rows${this.schema.size}`;
+    let decl = `num_rows(${this.schema.size}).\n`;
 
     decl +=
       Object.keys(stats)
         .map(field => {
+          const fieldName = `\"${field}\"`;
           const fieldStats = stats[field];
-          const fieldType = `fieldtype(${field},${fieldStats.type}).`;
-          const cardinality = `cardinality(${field}, ${fieldStats.distinct}).`;
+          const fieldType = `fieldtype(${fieldName},${fieldStats.type}).`;
+          const cardinality = `cardinality(${fieldName}, ${fieldStats.distinct}).`;
 
           return `${fieldType}\n${cardinality}`;
         })
