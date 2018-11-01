@@ -1,8 +1,5 @@
+import { asp2vl, constraints } from 'draco-core';
 import Clingo from 'wasm-clingo';
-import * as constraints from './constraints';
-import { getModels, models2vl } from './spec';
-
-export * from './constraints';
 
 /**
  * Options for Draco.
@@ -147,6 +144,26 @@ class Draco {
 
     return { specs, result, models, programs };
   }
+}
+
+/**
+ * Get the array of witnesses from clingo output.
+ * Return undefined if no witnesses were found.
+ */
+export function getModels(result: any) {
+  return (result.Call || []).reduce((arr: any[], el: any) => {
+    el.Witnesses.forEach((d: any) =>
+      arr.push({
+        facts: d.Value,
+        costs: d.Costs,
+      })
+    );
+    return arr;
+  }, []);
+}
+
+export function models2vl(models: any[]) {
+  return models.map(model => asp2vl(model.facts));
 }
 
 export default Draco;
