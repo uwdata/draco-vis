@@ -126,14 +126,16 @@ export function vl2asp(spec: TopLevelFacetedUnitSpec): string[] {
             facts.push(`:-log(${eid})`);
           }
         }
-      } else if (field === 'bin') {
+      } else if (field === 'bin' && fieldContent.maxbins) {
         facts.push(`${field}(${eid},${fieldContent.maxbins})`);
       } else if (field === 'field') {
         // fields can have spaces and start with capital letters
         facts.push(`${field}(${eid},"${fieldContent}")`);
       } else {
         // translate normal fields
-        facts.push(`${field}(${eid},${fieldContent})`);
+        if (field !== 'bin') {
+          facts.push(`${field}(${eid},${fieldContent})`);
+        }
       }
     }
 
