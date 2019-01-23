@@ -1,9 +1,8 @@
 import read from 'datalib/src/import/read';
 import dlstats from 'datalib/src/stats';
+import { Constraint, constraints, constraints2json } from 'draco-core';
 import { TopLevelSpec } from 'vega-lite/build/src/spec';
-import * as vegaLoader from 'vega-loader';
 import Clingo from 'wasm-clingo';
-import * as constraints from './constraints';
 import { getModels, models2vl } from './spec';
 
 /**
@@ -32,6 +31,11 @@ export interface Options {
 export interface Model {
   costs: number[];
   facts: string[];
+  violations: Violation[];
+}
+
+export interface Violation extends Constraint {
+  witness: string;
 }
 
 export interface SolutionSet {
@@ -59,6 +63,9 @@ class Draco {
   private Module: any;
   private stdout: string = '';
   private schema: Schema | null;
+  private soft: Constraint[];
+  private hard: Constraint[];
+  private constraints: any;
 
   /**
    * @param url The base path of the server hosting this.
@@ -103,6 +110,11 @@ class Draco {
 
     this.Module = m;
     this.schema = null;
+
+    this.hard = constraints2json(constraints.HARD);
+    this.soft = constraints2json(constraints.SOFT, constraints.WEIGHTS);
+
+    this.constraints = constraints;
   }
 
   /**
@@ -144,9 +156,10 @@ class Draco {
     const dataDecl = this.getDataDeclaration();
     program += dataDecl;
 
-    const programs = options.constraints || Object.keys(constraints);
+    const programs = options.constraints || Object.keys(this.constraints);
 
-    program += programs.map((name: string) => (constraints as any)[name]).join('\n\n');
+    console.log(this.constraints);
+    program += programs.map((name: string) => (this.constraints as any)[name]).join('\n\n');
 
     const opt = [
       '--outf=2', // JSON output
@@ -164,7 +177,7 @@ class Draco {
     this.Module.ccall('run', 'number', ['string', 'string'], [program, opt]);
 
     const result = JSON.parse(this.stdout);
-    const models = getModels(result);
+    const models = getModels(result, this.soft);
 
     if (models.length > (options.models || 1)) {
       throw new Error('Too many models.');
@@ -192,6 +205,13 @@ class Draco {
     this.schema = {
       stats: keyedSummary,
       size: data.length,
+    };
+  }
+
+  public updateAsp(aspSet: any) {
+    this.constraints = {
+      ...this.constraints,
+      ...aspSet
     };
   }
 
