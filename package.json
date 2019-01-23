@@ -9,7 +9,6 @@
   "typings": "build/index.d.ts",
   "scripts": {
     "test": "jest",
-    "concat": "bash concat_lp.sh ../asp src",
     "build": "rm -rf build && tsc && rollup -c",
     "format": "tslint -p . --fix && prettier --write '{src,test}/**/*.ts'",
     "lint": "tslint -p . && prettier --list-different '{src,test}/**/*.ts'",
@@ -18,6 +17,13 @@
   },
   "author": "Dominik Moritz",
   "license": "BSD-3-Clause",
+  "dependencies": {
+    "@types/json-stable-stringify": "^1.0.32",
+    "draco-core": "^0.0.3",
+    "vega-lite": "^3.0.0-rc8",
+    "vega-typings": "^0.3.50",
+    "wasm-clingo": "0.2.2"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.3",
@@ -53,12 +59,5 @@
       "<rootDir>/build",
       "src"
     ]
-  },
-  "dependencies": {
-    "datalib": "^1.9.1",
-    "draco-vis": "^0.0.9",
-    "vega-lite": "^3.0.0-rc6",
-    "vega-typings": "^0.3.47",
-    "wasm-clingo": "0.2.2"
   }
 }

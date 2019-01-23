@@ -1,10 +1,10 @@
 .cache
 .DS_Store
 .gitignore
+.mypy_cache
 .prettierrc.json
 .travis.yml
 .vscode
-concat_lp.sh
 concat_lp.sh
 demo
 dist
