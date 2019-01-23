@@ -175,7 +175,7 @@ class Draco {
     this.Module.ccall('run', 'number', ['string', 'string'], [program, opt]);
 
     const result = JSON.parse(this.stdout);
-    const models = getModels(result);
+    const models = getModels(result, this.soft);
 
     if (models.length > (options.models || 1)) {
       throw new Error('Too many models.');
