@@ -1,6 +1,4 @@
-import read from 'datalib/src/import/read';
-import dlstats from 'datalib/src/stats';
-import { Constraint, constraints, constraints2json } from 'draco-core';
+import { Constraint, constraints, constraints2json, data2schema, schema2asp } from 'draco-core';
 import { TopLevelSpec } from 'vega-lite/build/src/spec';
 import Clingo from 'wasm-clingo';
 import { getModels, models2vl } from './spec';
@@ -177,7 +175,7 @@ class Draco {
     this.Module.ccall('run', 'number', ['string', 'string'], [program, opt]);
 
     const result = JSON.parse(this.stdout);
-    const models = getModels(result, this.soft);
+    const models = getModels(result);
 
     if (models.length > (options.models || 1)) {
       throw new Error('Too many models.');
@@ -192,20 +190,7 @@ class Draco {
   }
 
   public prepareData(data: any[]) {
-    const readData = read(data);
-    const summary = dlstats.summary(readData);
-
-    const keyedSummary = {};
-    summary.forEach((column: any) => {
-      const field = column.field;
-      delete column.field;
-      keyedSummary[field] = column;
-    });
-
-    this.schema = {
-      stats: keyedSummary,
-      size: data.length,
-    };
+    this.schema = data2schema(data);
   }
 
   public updateAsp(aspSet: any) {
@@ -220,22 +205,7 @@ class Draco {
       throw Error("No data has been prepared");
     }
 
-    const stats = this.schema.stats;
-    let decl = `num_rows(${this.schema.size}).\n`;
-
-    decl +=
-      Object.keys(stats)
-        .map(field => {
-          const fieldName = `\"${field}\"`;
-          const fieldStats = stats[field];
-          const fieldType = `fieldtype(${fieldName},${fieldStats.type}).`;
-          const cardinality = `cardinality(${fieldName}, ${fieldStats.distinct}).`;
-
-          return `${fieldType}\n${cardinality}`;
-        })
-        .join('\n');
-
-    return `\n${decl}\n`;
+    return schema2asp(this.schema).join('\n');
   }
 }
 
