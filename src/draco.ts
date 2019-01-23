@@ -145,10 +145,6 @@ class Draco {
       throw Error('Draco is not initialized. Call `init() first.`');
     }
 
-    if (!this.schema) {
-      throw Error('Must prepare data first');
-    }
-
     this.Module.setStatus('Running Draco Query...');
 
     const dataDecl = this.getDataDeclaration();
@@ -202,7 +198,7 @@ class Draco {
 
   private getDataDeclaration(): string {
     if (!this.schema) {
-      throw Error("No data has been prepared");
+      return '';
     }
 
     return schema2asp(this.schema).join('\n');
