@@ -185,6 +185,10 @@ class Draco {
     return { models, programs, specs };
   }
 
+  public getSchema(): Schema | null {
+    return this.schema;
+  }
+
   public prepareData(data: any[]) {
     this.schema = data2schema(data);
   }
