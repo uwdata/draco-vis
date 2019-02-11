@@ -51,6 +51,11 @@ export interface Schema {
   size: number;
 }
 
+export interface ConstraintSet {
+  soft: Constraint[],
+  hard: Constraint[]
+}
+
 /**
  * Draco is a solver that recommends visualization specifications based off
  * partial specs.
@@ -152,7 +157,6 @@ class Draco {
 
     const programs = options.constraints || Object.keys(this.constraints);
 
-    console.log(this.constraints);
     program += programs.map((name: string) => (this.constraints as any)[name]).join('\n\n');
 
     const opt = [
@@ -198,6 +202,13 @@ class Draco {
       ...this.constraints,
       ...aspSet
     };
+  }
+
+  public getConstraintSet(): ConstraintSet {
+    return {
+      soft: this.soft,
+      hard: this.hard
+    }
   }
 
   private getDataDeclaration(): string {
