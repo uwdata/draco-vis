@@ -37,13 +37,13 @@ export interface Violation extends Constraint {
 }
 
 export interface SolutionSet {
-  models: Model[];  // ASP models
+  models: Model[]; // ASP models
   programs: string[];
-  specs: TopLevelSpec[];  // vega-lite specs
+  specs: TopLevelSpec[]; // vega-lite specs
 }
 
 export interface FieldTypes {
-  [field: string]: string
+  [field: string]: string;
 }
 
 export interface Schema {
@@ -52,8 +52,8 @@ export interface Schema {
 }
 
 export interface ConstraintSet {
-  soft: Constraint[],
-  hard: Constraint[]
+  soft: Constraint[];
+  hard: Constraint[];
 }
 
 /**
@@ -200,15 +200,15 @@ class Draco {
   public updateAsp(aspSet: any) {
     this.constraints = {
       ...this.constraints,
-      ...aspSet
+      ...aspSet,
     };
   }
 
   public getConstraintSet(): ConstraintSet {
     return {
       soft: this.soft,
-      hard: this.hard
-    }
+      hard: this.hard,
+    };
   }
 
   private getDataDeclaration(): string {

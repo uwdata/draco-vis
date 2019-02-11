@@ -10,48 +10,42 @@ const SOFT_REGEX = /(soft\(\w+).*?\)/;
  */
 export function getModels(result: any, constraints: Constraint[]): Model[] {
   return (result.Call || []).reduce((arr: any[], el: any) => {
-    el.Witnesses
-      .forEach((d: any) => {
-        const facts = d.Value;
-        const costs = d.Costs;
+    el.Witnesses.forEach((d: any) => {
+      const facts = d.Value;
+      const costs = d.Costs;
 
-        const violationAsps =
-          facts
-            .filter((fact: string) => {
-              return fact.startsWith('soft(');
-            });
-
-        const violations =
-          violationAsps
-            .map((asp: string) => {
-              const matcher = SOFT_REGEX.exec(asp);
-
-              if (!matcher) {
-                throw Error(`invalid violation: ${asp}`);
-              }
-              const toMatch = matcher[1];
-
-              const constraint =
-                constraints.find((curr: Constraint) => {
-                  return curr.asp.startsWith(toMatch);
-                });
-
-              if (!constraint) {
-                throw Error(`${toMatch} not found!`);
-              }
-
-              return {
-                ...constraint,
-                witness: asp
-              };
-            });
-
-        arr.push({
-          costs,
-          facts,
-          violations
-        })
+      const violationAsps = facts.filter((fact: string) => {
+        return fact.startsWith('soft(');
       });
+
+      const violations = violationAsps.map((asp: string) => {
+        const matcher = SOFT_REGEX.exec(asp);
+
+        if (!matcher) {
+          throw Error(`invalid violation: ${asp}`);
+        }
+        const toMatch = matcher[1];
+
+        const constraint = constraints.find((curr: Constraint) => {
+          return curr.asp.startsWith(toMatch);
+        });
+
+        if (!constraint) {
+          throw Error(`${toMatch} not found!`);
+        }
+
+        return {
+          ...constraint,
+          witness: asp,
+        };
+      });
+
+      arr.push({
+        costs,
+        facts,
+        violations,
+      });
+    });
     return arr;
   }, []);
 }
