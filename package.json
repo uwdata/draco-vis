@@ -19,8 +19,8 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@types/json-stable-stringify": "^1.0.32",
-    "draco-core": "^0.0.4",
-    "vega-lite": "^3.0.0-rc8",
+    "vega": "^5.3.4",
+    "vega-lite": "^3.1.0",
     "vega-typings": "^0.3.50",
     "wasm-clingo": "0.2.2"
   },

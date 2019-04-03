@@ -1,5 +1,5 @@
-import { Constraint, constraints, constraints2json, data2schema, schema2asp } from 'draco-core';
-import { TopLevelSpec } from 'vega-lite/build/src/spec';
+import { Constraint, constraints, constraints2json, data2schema, json2constraints, schema2asp } from 'draco-core';
+import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import Clingo from 'wasm-clingo';
 import { getModels, models2vl } from './spec';
 
@@ -39,7 +39,7 @@ export interface Violation extends Constraint {
 export interface SolutionSet {
   models: Model[]; // ASP models
   programs: string[];
-  specs: TopLevelSpec[]; // vega-lite specs
+  specs: TopLevelUnitSpec[]; // vega-lite specs
 }
 
 export interface FieldTypes {
@@ -148,7 +148,7 @@ class Draco {
    *
    * @returns The solution from Clingo as JSON.
    */
-  public solve(program: string, options: Options = {}): SolutionSet {
+  public solve(program: string, options: Options = {}): SolutionSet | null {
     if (!this.initialized) {
       throw Error('Draco is not initialized. Call `init() first.`');
     }
@@ -158,9 +158,15 @@ class Draco {
     const dataDecl = this.getDataDeclaration();
     program += dataDecl;
 
-    const programs = options.constraints || Object.keys(this.constraints);
+    const programs = options.constraints || Object.keys(this.constraints).filter(name => !(name === 'SOFT' || name === 'HARD' || name === 'WEIGHTS'));
 
     program += programs.map((name: string) => (this.constraints as any)[name]).join('\n\n');
+
+    const softAsp = json2constraints(this.soft);
+    const hardAsp = json2constraints(this.hard);
+
+    program += hardAsp.definitions + '\n\n';
+    program += softAsp.definitions + '\n\n' + softAsp.weights + '\n\n' + softAsp.assigns;
 
     const opt = [
       '--outf=2', // JSON output
@@ -178,7 +184,14 @@ class Draco {
     this.Module.ccall('run', 'number', ['string', 'string'], [program, opt]);
 
     const result = JSON.parse(this.stdout);
-    const models = getModels(result, this.soft);
+
+    if (result.Result === 'UNSATISFIABLE') {
+      console.debug('UNSATISFIABLE');
+      console.debug(result);
+      return null;
+    }
+
+    const models = getModels(result, this.soft.concat(this.hard));
 
     if (models.length > (options.models || 1)) {
       throw new Error('Too many models.');
@@ -212,6 +225,25 @@ class Draco {
       soft: this.soft,
       hard: this.hard,
     };
+  }
+
+  public setConstraintSet(constraintSet: ConstraintSet) {
+    this.hard = constraintSet.hard;
+    this.soft = constraintSet.soft;
+  }
+
+  public toggleHard(off: boolean) {
+    if (off) {
+      this.hard.forEach(c => {
+        c.type = 'soft';
+        c.asp = c.asp.split('hard').join('soft');
+      });
+    } else {
+      this.hard.forEach(c => {
+        c.type = 'hard';
+        c.asp = c.asp.split('soft').join('hard');
+      });
+    }
   }
 
   private getDataDeclaration(): string {

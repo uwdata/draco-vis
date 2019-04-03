@@ -1,5 +1,5 @@
 import { asp2vl, Constraint } from 'draco-core';
-import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
+import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { Model } from './draco';
 
 const SOFT_REGEX = /(soft\(\w+).*?\)/;
@@ -50,6 +50,6 @@ export function getModels(result: any, constraints: Constraint[]): Model[] {
   }, []);
 }
 
-export function models2vl(models: Model[]): TopLevelFacetedUnitSpec[] {
+export function models2vl(models: Model[]): TopLevelUnitSpec[] {
   return models.map(model => asp2vl(model.facts));
 }
