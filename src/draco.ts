@@ -24,6 +24,12 @@ export interface Options {
    * Number of models.
    */
   models?: number;
+
+  /**
+   * If true, hard constraints will not be strictly enforced, instead
+   * incurring an infinite cost.
+   */
+  relaxHard?: boolean;
 }
 
 export interface Model {
@@ -74,10 +80,7 @@ class Draco {
    * @param url The base path of the server hosting this.
    * @param updateStatus Optional callback to log updates for status changes.
    */
-  constructor(
-    updateStatus: (text: string) => void = console.log,
-    url: string = 'https://unpkg.com/wasm-clingo@0.2.2',
-  ) {
+  constructor(updateStatus: (text: string) => void = console.log, url: string = 'https://unpkg.com/wasm-clingo@0.2.2') {
     // add / if it's missing from the URL
     if (url.substr(url.length - 1) !== '/') {
       url += '/';
@@ -158,7 +161,13 @@ class Draco {
     const dataDecl = this.getDataDeclaration();
     program += dataDecl;
 
-    const programs = options.constraints || Object.keys(this.constraints).filter(name => !(name === 'SOFT' || name === 'HARD' || name === 'WEIGHTS'));
+    const programs =
+      options.constraints ||
+      Object.keys(this.constraints).filter(name => !(name === 'SOFT' || name === 'HARD' || name === 'WEIGHTS'));
+
+    if (options.relaxHard && programs.indexOf('HARD_INTEGRITY') !== -1) {
+      programs.splice(programs.indexOf('HARD_INTEGRITY'), 1);
+    }
 
     program += programs.map((name: string) => (this.constraints as any)[name]).join('\n\n');
 
@@ -230,20 +239,6 @@ class Draco {
   public setConstraintSet(constraintSet: ConstraintSet) {
     this.hard = constraintSet.hard;
     this.soft = constraintSet.soft;
-  }
-
-  public toggleHard(off: boolean) {
-    if (off) {
-      this.hard.forEach(c => {
-        c.type = 'soft';
-        c.asp = c.asp.split('hard').join('soft');
-      });
-    } else {
-      this.hard.forEach(c => {
-        c.type = 'hard';
-        c.asp = c.asp.split('soft').join('hard');
-      });
-    }
   }
 
   private getDataDeclaration(): string {
