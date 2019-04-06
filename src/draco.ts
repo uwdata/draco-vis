@@ -46,6 +46,7 @@ export interface SolutionSet {
   models: Model[]; // ASP models
   programs: string[];
   specs: TopLevelUnitSpec[]; // vega-lite specs
+  result: any; // result object from Clingo (for misc. use).
 }
 
 export interface FieldTypes {
@@ -211,7 +212,7 @@ class Draco {
     // done
     this.Module.setStatus('');
 
-    return { models, programs, specs };
+    return { models, programs, specs, result };
   }
 
   public getSchema(): Schema | null {
