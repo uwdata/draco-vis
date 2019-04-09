@@ -81,7 +81,7 @@ class Draco {
    * @param url The base path of the server hosting this.
    * @param updateStatus Optional callback to log updates for status changes.
    */
-  constructor(updateStatus: (text: string) => void = console.log, url: string = 'https://unpkg.com/wasm-clingo@0.2.2') {
+  constructor(url: string = 'https://unpkg.com/wasm-clingo@0.2.2', updateStatus: (text: string) => void = console.log) {
     // add / if it's missing from the URL
     if (url.substr(url.length - 1) !== '/') {
       url += '/';
